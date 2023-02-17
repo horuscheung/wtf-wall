@@ -14,6 +14,7 @@ let dailyWtf = 0;
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+app.use("/favicon.ico", express.static("favicon.ico"));
 
 io.on("connection", (socket) => {
   io.emit("dailyWtf", dailyWtf);
