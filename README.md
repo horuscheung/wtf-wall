@@ -7,5 +7,5 @@ wtf is this
 After Checkout and installed NodeJS
 ```
 npm install
-node server.js
+node index.js
 ```
