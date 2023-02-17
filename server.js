@@ -13,6 +13,12 @@ io.on("connection", (socket) => {
     dailyWtf++;
     io.emit("wtf", msg);
   });
+  socket.on("mouse", (msg) => {
+    const { x, y } = msg;
+
+    dailyWtf++;
+    io.emit("paint", { x, y });
+  });
 });
 
 http.listen(port, () => {

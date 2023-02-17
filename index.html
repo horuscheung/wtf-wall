@@ -87,8 +87,8 @@
 
       <label id="your-wtf-label">Your WTF:</label
       ><label id="your-wtf-value">0</label>
-      
-      <div id="clear">Clear Wall</button>
+
+      <div id="clear">Clear Wall</div>
     </form>
     <script src="/socket.io/socket.io.js"></script>
 
@@ -122,6 +122,30 @@
         yourWtf++;
         yourWtfTag.textContent = yourWtf;
       });
+
+      canvas.addEventListener("mousedown", function (e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        socket.emit("mouse", { x, y });
+
+        yourWtf++;
+
+        yourWtfTag.textContent = yourWtf;
+      });
+      socket.on("paint", function (msg) {
+        ctx.font = `30px Arial`;
+        ctx.fillStyle =
+          "#" +
+          (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+        ctx.fillText("WTF", msg.x, msg.y);
+
+        count++;
+        dailyWtf++;
+
+        countTag.textContent = count;
+        dailyWtfTag.textContent = dailyWtf;
+      });
       socket.on("dailyWtf", function (msg) {
         dailyWtf = Number(msg);
         dailyWtfTag.textContent = dailyWtf;
@@ -129,7 +153,7 @@
 
       socket.on("wtf", function (msg) {
         var item = document.createElement("li");
-        ctx.font = `${Math.random()*70}px Arial`;
+        ctx.font = `${Math.random() * 70}px Arial`;
 
         ctx.fillStyle =
           "#" +
